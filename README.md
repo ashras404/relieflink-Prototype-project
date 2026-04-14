@@ -59,7 +59,7 @@ Make sure you have [Node.js](https://nodejs.org/) and [Python](https://www.pytho
 ### 1. Clone the Repository
 ```bash
 git clone [https://github.com/ashras404/relieflink-Prototype-project.git]
-cd relieflink-solution-challenge
+cd relieflink-v2
 
 
 Start the Backend (FastAPI)
