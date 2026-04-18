@@ -49,6 +49,25 @@ db_requests = [
     {"id": 19, "location": "Zone S (Airport Area)", "urgency": 5, "shortage": 6, "distance_km": 22, "items": "30 Medicine Kits", "lat": 26.7600, "lng": 80.8800},
     {"id": 20, "location": "Zone T (PGI Area)", "urgency": 4, "shortage": 8, "distance_km": 17, "items": "45 Food Packets", "lat": 26.7700, "lng": 80.9200}
 ]
+# --- VOLUNTEER DATABASE ---
+db_volunteers = [
+    {"id": 1, "name": "Aarav S.", "status": "Active", "zone": "Zone A"},
+    {"id": 2, "name": "Priya M.", "status": "Available", "zone": "None"},
+    {"id": 3, "name": "Rahul T.", "status": "En Route", "zone": "Zone C"},
+    {"id": 4, "name": "Neha K.", "status": "Available", "zone": "None"},
+    {"id": 5, "name": "Vikram B.", "status": "Active", "zone": "Zone B"},
+    {"id": 6, "name": "Sanya R.", "status": "Available", "zone": "None"},
+    {"id": 7, "name": "Rohan D.", "status": "Active", "zone": "Zone A"},
+    {"id": 8, "name": "Ananya V.", "status": "En Route", "zone": "Zone B"},
+    {"id": 9, "name": "Kabir L.", "status": "Available", "zone": "None"},
+    {"id": 10, "name": "Ishaan P.", "status": "Active", "zone": "Zone C"},
+    {"id": 11, "name": "Mira J.", "status": "Available", "zone": "None"},
+    {"id": 12, "name": "Aditya N.", "status": "En Route", "zone": "Zone A"},
+]
+
+@app.get("/api/volunteers")
+def get_volunteers():
+    return db_volunteers
 @app.get("/")
 def read_root():
     return {"message": "ReliefLink API is running!"}

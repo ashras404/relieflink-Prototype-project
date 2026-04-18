@@ -18,6 +18,7 @@ export default function App() {
 
   // 1. Create a state variable to hold your backend data
   const [urgentNeeds, setUrgentNeeds] = useState([]);
+  const [volunteers, setVolunteers] = useState([]);
 
   // 2. THE CONNECTION: Fetch the AI-sorted data from Python when the page loads
   useEffect(() => {
@@ -25,6 +26,12 @@ export default function App() {
       .then((response) => response.json())
       .then((data) => setUrgentNeeds(data))
       .catch((error) => console.error("Error fetching AI data:", error));
+
+      // NEW: Fetch Volunteers
+    fetch('http://localhost:8000/api/volunteers')
+      .then(response => response.json())
+      .then(data => setVolunteers(data))
+      .catch(error => console.error("Error fetching volunteers:", error));
   }, []);
 
   const recentActivity = [
@@ -263,37 +270,35 @@ export default function App() {
             </div>
 
             {/* Recent Activity */}
-            <div className="bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col flex-1">
-              <div className="px-5 py-4 border-b border-slate-100">
-                <h3 className="font-bold text-slate-800">Recent Activity</h3>
+            {/* Live Volunteer Fleet */}
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col flex-1 h-[400px]">
+              <div className="px-5 py-4 border-b border-slate-100 flex justify-between items-center">
+                <h3 className="font-bold text-slate-800">Volunteer Fleet</h3>
+                <span className="bg-emerald-50 text-emerald-600 text-[10px] font-bold px-2 py-1 rounded">
+                  {volunteers.filter(v => v.status === 'Available').length} READY
+                </span>
               </div>
-              <div className="p-5 overflow-y-auto space-y-5">
-                {recentActivity.map((activity) => (
-                  <div
-                    key={activity.id}
-                    className="flex gap-3 items-start relative before:absolute before:left-[11px] before:top-6 before:bottom-[-20px] before:w-[2px] before:bg-slate-100 last:before:hidden"
-                  >
-                    <div
-                      className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 z-10 ${
-                        activity.status === "success"
-                          ? "bg-emerald-100 text-emerald-600"
-                          : "bg-orange-100 text-orange-600"
-                      }`}
-                    >
-                      {activity.status === "success" ? (
-                        <CheckCircle2 size={14} />
-                      ) : (
-                        <Clock size={14} />
-                      )}
+              <div className="p-3 overflow-y-auto space-y-2">
+                {volunteers.map((vol) => (
+                  <div key={vol.id} className="flex justify-between items-center p-2 hover:bg-slate-50 rounded-lg transition-colors border border-transparent hover:border-slate-100">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-xs">
+                        {vol.name.charAt(0)}
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-slate-700">{vol.name}</p>
+                        <p className="text-[10px] text-slate-400 font-medium">
+                          Zone: {vol.zone === 'None' ? 'Unassigned' : vol.zone}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm font-bold text-slate-700">
-                        {activity.action}
-                      </p>
-                      <p className="text-xs text-slate-500 mt-0.5">
-                        {activity.detail}
-                      </p>
-                    </div>
+                    <span className={`text-[10px] font-bold px-2 py-1 rounded-full ${
+                      vol.status === 'Available' ? 'bg-emerald-100 text-emerald-700' :
+                      vol.status === 'Active' ? 'bg-blue-100 text-blue-700' :
+                      'bg-orange-100 text-orange-700'
+                    }`}>
+                      {vol.status}
+                    </span>
                   </div>
                 ))}
               </div>
