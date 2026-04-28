@@ -1,0 +1,10 @@
+{
+  "name": "relieflink-backend",
+  "version": "1.0.0",
+  "description": "Python FastAPI backend for ReliefLink",
+  "scripts": {
+    "dev": "python -m uvicorn main:app --reload --port 8000"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
